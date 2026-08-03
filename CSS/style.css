@@ -173,7 +173,91 @@ button {
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  
 }
+/* ---------------- game-screen ------------------ */
+
+#game-screen{
+    background-image:url(/Images/background\ 2.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+   
+    /* height: 100vh; */
+    width: 100%;
+    padding: 60px 10vw;
+}
+
+#game-box {
+  background-color: #312B4B;
+  width: 720px;
+  height: 490px;
+
+  position: relative; /* allows us to position inner elements (absolute) related the the game-box */
+  overflow: hidden; /* prevents elements to visually exit the game-box */
+  user-select: none; /* prevents elements inside the game-box to be highlighted. This improves the user experience for click events on the game-box */
+  
+  box-sizing: border-box;
+  border-radius: 16px;
+  /* box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); */
+}
+
+
+#game-content{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#counters-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.counter-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: 8px;
+}
+
+.counter{
+    background-color: #29204A;
+    padding: 6px 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.resource-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+
+}
+
+.label{
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 24%;
+    text-transform: uppercase;
+    color: #29204A;
+}
+
+
 
 /* ---------------- win-screen ------------------ */
 
@@ -225,4 +309,11 @@ button {
     /* height: 100vh; */
     width: 100%;
     padding: 60px 10vw;
+}
+
+/* ---------------- turn on/off ------------------ */
+
+
+#game-screen, #lose-screen, #win-screen{
+  display: none;
 }
