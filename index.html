@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cube Runner</title>
+  <link rel="stylesheet" href="./CSS/style.css">
+</head>
+<body>
+
+  <div id="start-screen" class="container">
+    <div id="main-container">
+    <h1>Before Nightfall</h1>
+    <p>Build a fire before the sun goes down</p>
+    <button id="start-btn">Start Game</button>
+    <div id="card-container">
+        <div class="card">
+            <h3>Gather resources for the fire</h3>
+            <p>Gather enough dry plants, wood, and stones to build your fire.</p>
+            <div class="card-image-container">
+                <img src="" alt="">
+            </div>
+        </div>
+         <div class="card">
+            <h3>Get everything before sunset!</h3>
+            <p>You have 45 seconds of daylight. Gather everything you need before the sun sets or you’ll freeze at night!</p>
+            <div class="card-image-container">
+                <img src="" alt="">
+            </div>
+        </div>
+          <div class="card">
+            <h3>Use the arrow keys</h3>
+            <p>Use the arrow keys to move your character around the forest.</p>
+            <div class="card-image-container">
+                <img src="" alt="">
+            </div>
+        </div>
+         <div class="card">
+            <h3>Beware of the raccoons</h3>
+            <p>Every now and then, the raccoons will try to steal your resources. Chase them away to protect your supplies!</p>
+            <div class="card-image-container">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+  </div>
+
+  <div id="game-screen" class="container">
+    <div id="game-box"></div>
+  </div>
+
+  <div id="game-over-win-screen" class="container">
+    <h2>You did it! The fire is lit!</h2>
+    <p>Looks like you’re not freezing tonight</p>
+  </div>
+
+  <div id="game-over-lose-screen" class="container">
+    <h2>Night has fallen…</h2>
+    <p>The fire wasn’t ready in time :(</p>
+  </div>
+
+
+
+  <script src="./js/main.js"></script>
+  <script src="./js/player.js"></script>
+  <script src="./js/cube.js"></script>
+
+</body>
+</html>
