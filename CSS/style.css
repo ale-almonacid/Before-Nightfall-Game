@@ -274,6 +274,11 @@ button {
     color: #29204A;
 }
 
+#sun {
+    position: absolute;
+    transition: left 1s linear, top 1s linear; /* Smooths the 1-second ticks */
+}
+
 
 
 /* ---------------- win-screen ------------------ */
