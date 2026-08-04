@@ -58,6 +58,13 @@ window.addEventListener("keydown", (event) => {
     } else if (event.key === "ArrowDown") {
         playerObj.moveDown()
         //console.log("trying to move the player down") (TEST)
+    }else if (event.key === "ArrowRight") {
+        playerObj.moveRight()
+
+    } else if (event.key === "ArrowLeft") {
+        playerObj.moveLeft()
+
     }
+    
 })
 

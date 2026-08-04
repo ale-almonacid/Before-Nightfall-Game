@@ -53,5 +53,27 @@ class Player {
     }
 
 
+    moveRight() {
+
+        if (this.x <= 0){
+      return
+        }
+
+        this.x += 20
+        this.node.style.left = `${this.x}px` 
+    }
+
+
+     moveLeft() {
+
+        if (this.x <= 0){
+      return
+        }
+
+        this.x -= 20
+        this.node.style.left = `${this.x}px` 
+    }
+
+
 
 }

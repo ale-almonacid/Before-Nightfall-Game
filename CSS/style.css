@@ -195,17 +195,33 @@ button {
     padding: 60px 10vw;
 }
 
-#game-box {
-  background-color: #312B4B;
-  width: 720px;
-  height: 490px;
+#game-window{
+    background-color: #CD5F6B;
+    background: linear-gradient(180deg, #8E3220 2.32%, #FF82A7 38.5%);
+    position: relative;
+    width: 720px;
+    height: 490px;
+    border-radius: 12px;
+    overflow: hidden;
+}
 
-  position: relative; /* allows us to position inner elements (absolute) related the the game-box */
+#game-box {
+  background-color: #29204A;
+  
+
+  width: 100%;
+  height: 60%; 
+  position: absolute;
+  bottom: 0;         /* Sticks to the bottom of .game-window */
+  left: 0;
+
+  /* /position: relative; allows us to position inner elements (absolute) related the the game-box */
+  
   overflow: hidden; /* prevents elements to visually exit the game-box */
   user-select: none; /* prevents elements inside the game-box to be highlighted. This improves the user experience for click events on the game-box */
   
   box-sizing: border-box;
-  border-radius: 16px;
+  
   /* box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); */
 }
 
