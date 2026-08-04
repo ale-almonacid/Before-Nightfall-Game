@@ -322,8 +322,21 @@ button {
   display: none;
 }
 
-#fire{
-    position: absolute; 
+/* Fire wrapper placed directly over the center of the pile */
+#fire-container {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* Sits above all logs, plants, and rocks */
+  pointer-events: none; /* Allows clicks/collisions to pass through if needed */
+}
+
+/* Control fire sprite size */
+#fire {
+  width: 140px; /* Adjust size to fit your pile */
+  height: auto;
+  display: none;
 }
 
 /* ---------------------------------------------------------
