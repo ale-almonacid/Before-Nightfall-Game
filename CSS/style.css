@@ -279,6 +279,95 @@ button {
     transition: left 1s linear, top 1s linear; /* Smooths the 1-second ticks */
 }
 
+#mountains {
+    position: absolute;
+    z-index: 2
+    
+}
+
+/* =========================================================
+   RESOURCE PILE BASE STYLES
+   ========================================================= */
+#resource-pile {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  /* explicit size: all the children are absolute, so without this the
+     box would collapse to 0x0 and the sprites would be clipped */
+  width: 186px;
+  height: 108px;
+  z-index: 2;
+}
+
+#pile-floor {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pile-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.pile-item {
+  position: absolute;
+}
+
+.pile-item.hidden {
+  display: none;
+}
+
+#fire{
+    position: absolute; 
+}
+
+/* ---------------------------------------------------------
+   ROCKS (9 total - Ring distribution around the floor)
+   --------------------------------------------------------- */
+.rock-1 { left: 37px;  top: 7px;  }  /* 1819px - 1782px, 229px - 222px */
+.rock-2 { left: 17px;  top: 28px; }  /* 1799px - 1782px, 250px - 222px */
+.rock-3 { left: 29px;  top: 48px; }  /* 1811px - 1782px, 270px - 222px */
+.rock-4 { left: 54px;  top: 57px; }  /* 1836px - 1782px, 279px - 222px */
+.rock-5 { left: 85px;  top: 56px; }  /* 1867px - 1782px, 278px - 222px */
+.rock-6 { left: 110px; top: 43px; }  /* 1892px - 1782px, 265px - 222px */
+.rock-7 { left: 113px; top: 20px; }  /* 1895px - 1782px, 242px - 222px */
+.rock-8 { left: 93px;  top: 4px;  }  /* 1875px - 1782px, 226px - 222px */
+.rock-9 { left: 65px;  top: 0px;  }  /* 1847px - 1782px, 222px - 222px */
+
+/* ---------------------------------------------------------
+   PLANTS (5 total - Inner cluster)
+   --------------------------------------------------------- */
+.plant-1 { left: 67px; top: 39px; }  /* 1849px - 1782px, 261px - 222px */
+.plant-2 { left: 44px; top: 29px; }  /* 1826px - 1782px, 251px - 222px */
+.plant-3 { left: 64px; top: 13px; }  /* 1846px - 1782px, 235px - 222px */
+.plant-4 { left: 85px; top: 17px; }  /* 1867px - 1782px, 239px - 222px */
+.plant-5 { left: 90px; top: 32px; }  /* 1872px - 1782px, 254px - 222px */
+
+/* ---------------------------------------------------------
+   WOOD LOGS (6 total - Pyramidal center stack)
+   --------------------------------------------------------- */
+/* Bottom Tier */
+.wood-1 { left: 53px; top: 14px; z-index: 1; }  /* 1835px - 1782px, 236px - 222px */
+.wood-2 { left: 67px; top: 21px; z-index: 2; }  /* 1849px - 1782px, 243px - 222px */
+.wood-3 { left: 79px; top: 30px; z-index: 3; }  /* 1861px - 1782px, 252px - 222px */
+
+/* Middle Tier */
+.wood-4 { left: 65px; top: 7px;  z-index: 4; }  /* 1847px - 1782px, 229px - 222px */
+.wood-5 { left: 77px; top: 15px; z-index: 5; }  /* 1859px - 1782px, 237px - 222px */
+
+/* Top Log */
+.wood-6 { left: 75px; top: 1px;  z-index: 6; }  /* 1855px - 1782px, 229px - 222px */
+
+
+
+
+
+
 
 
 /* ---------------- win-screen ------------------ */

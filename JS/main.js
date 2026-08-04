@@ -52,6 +52,12 @@ let resourceCounts = {
 
 const RESOURCE_GOALS = { plant: 5, wood: 6, rock: 9 }
 
+const layerIds = {
+  rock: 'rocks-layer',
+  plant: 'plants-layer',
+  wood: 'wood-layer'
+};
+
 
 
 //* GLOBAL GAME FUNCTIONS
@@ -79,6 +85,11 @@ function resetGame() {
 
     updateCounterUI()
     updateCountdown()
+
+    // 5. hide every pile sprite again
+    updatePileDisplay("plant")
+    updatePileDisplay("rock")
+    updatePileDisplay("wood")
 }
 
 
@@ -150,6 +161,19 @@ function checkCollision(element1, element2) {
   ); // true if colliding, false if not colliding
 }
 
+function updatePileDisplay(type) {
+  const layer = document.getElementById(layerIds[type]);
+  if (!layer) return;
+
+  const sprites = layer.querySelectorAll('.pile-item');
+  sprites.forEach(sprite => {
+    const index = parseInt(sprite.dataset.index, 10);
+    // Show sprite if collected count reaches its index, hide otherwise
+    sprite.classList.toggle('hidden', index > resourceCounts[type]);
+  });
+}
+
+
 function checkCollisionPlayerResource(){
     // 1. Loop through every resource on the ground using forEach
     gameResources.forEach((resource) => {
@@ -160,10 +184,13 @@ function checkCollisionPlayerResource(){
             // Increment counter based on class type
             if (resource instanceof Plant) {
                 resourceCounts.plant++;
+                updatePileDisplay("plant");
             } else if (resource instanceof Rock) {
                 resourceCounts.rock++;
+                updatePileDisplay("rock");
             } else if (resource instanceof Wood) {
                 resourceCounts.wood++;
+                updatePileDisplay("wood");
             }
 
             // 2. Remove the node from the screen
@@ -203,8 +230,8 @@ function updateSunPosition() {
     const startY = 0;
 
     // Point B (Target Bottom-Right)
-    const endX = 468;
-    const endY = 200;
+    const endX = 460;
+    const endY = 175;
 
     // X moves in a straight line across
     const currentX = startX + (endX - startX) * progress;
