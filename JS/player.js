@@ -7,8 +7,12 @@ class Player {
         // adding the node to the gamebox 
         gameBoxNode.append(this.node)
 
-        this.x = 40; 
+        this.x = 40;
         this.y = 160;
+
+        // image is 79x98, so keep the same ratio
+        this.width = 78.8;
+        this.height = 98;
 
 
         //adjusting the initial values of the DOM node
@@ -18,6 +22,8 @@ class Player {
         this.node.style.top = `${this.y}px`
         this.node.style.height = `${this.height}px`
         this.node.style.width = `${this.width}px`
+
+        this.node.style.zIndex = "2"; 
 
 
         this.speed = 2
@@ -34,7 +40,7 @@ class Player {
 
     moveUp() {
 
-        if (this.y <= 0){
+        if (this.y + (this.height/2) <= 0){
       return
         }
 
@@ -55,7 +61,7 @@ class Player {
 
     moveRight() {
 
-        if (this.x <= 0){
+        if ((this.x + this.width) >= gameBoxNode.offsetWidth){
       return
         }
 
