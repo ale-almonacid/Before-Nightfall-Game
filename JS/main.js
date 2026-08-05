@@ -341,7 +341,7 @@ function checkRaccoonSteal() {
             if (resourceCounts.plant > 0) {
                 resourceCounts.plant--;
                 updatePileDisplay("plant");
-                raccoonObj.changeSprite(".Images/Raccoon-plant.png");
+                raccoonObj.changeSprite("./Images/Raccoon-plant.png");
             } else if (resourceCounts.rock > 0) {
                 resourceCounts.rock--;
                 updatePileDisplay("rock");
