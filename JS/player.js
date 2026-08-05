@@ -26,7 +26,7 @@ class Player {
         this.node.style.height = `${this.height}px`
         this.node.style.width = `${this.width}px`
 
-        this.node.style.zIndex = "2"; 
+        this.node.style.zIndex = "3"; 
 
 
         this.speed = 2

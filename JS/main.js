@@ -40,9 +40,13 @@ const fireNode = document.querySelector("#fire")
 
 let playerObj = null
 let gameResources = []; // let, not const: filter() reassigns it when resources are collected
+let raccoonArr = [] 
 
 let spawnIntervalId = null;
 let gameIntervalId = null;
+let raccoonSpawnIntervalId = null;
+let raccoonTimeoutId = null;
+
 let timeGame = 45;
 let timerIntervalId = null;
 
@@ -66,22 +70,28 @@ const layerIds = {
 
 function resetGame() {
 
-    // 1. stop any interval that could still be running from the previous game
+  // 1. Clear ALL intervals and timeouts
     clearInterval(gameIntervalId)
     clearInterval(spawnIntervalId)
     clearInterval(timerIntervalId)
+    clearInterval(raccoonSpawnIntervalId)
+    clearTimeout(raccoonTimeoutId)
 
-    // 2. remove the old player from the screen (if there was one)
+    // 2. Remove player
     if (playerObj) {
         playerObj.node.remove()
         playerObj = null
     }
 
-    // 3. remove every resource still on the ground and empty the array
+    // 3. Clear resources
     gameResources.forEach((resource) => resource.node.remove())
     gameResources = []
 
-    // 4. put the counters and the timer back to their starting values
+    // 4. Clear raccoons from screen and reset array
+    raccoonArr.forEach((raccoon) => raccoon.node.remove())
+    raccoonArr = []
+
+    // 5. Reset stats and UI
     resourceCounts = { plant: 0, rock: 0, wood: 0 }
     timeGame = 45
 
@@ -91,7 +101,6 @@ function resetGame() {
     updateCountdown()
     updateSunPosition()
 
-    // 5. hide every pile sprite again
     updatePileDisplay("plant")
     updatePileDisplay("rock")
     updatePileDisplay("wood")
@@ -100,30 +109,52 @@ function resetGame() {
 
 function startGame() {
 
-    // 0. clean up whatever is left from a previous game
-    resetGame()
+    // 0. Clean up everything first
+    resetGame();
 
-    // 1. chnage the screen
-    startScreenNode.style.display = "none"
-    winScreenNode.style.display = "none"
-    loseScreenNode.style.display = "none"
-    gameScreenNode.style.display = "flex"
+    // 1. Switch screens
+    startScreenNode.style.display = "none";
+    winScreenNode.style.display = "none";
+    loseScreenNode.style.display = "none";
+    gameScreenNode.style.display = "flex";
 
-    // 2. add the initial elements
-    playerObj = new Player()
+    // 2. Add player
+    playerObj = new Player();
 
-    //3. start resources spawning
+    // 3. Start resources & countdown
     startResourceSpawner();
-    startCountdown()
+    startCountdown();
 
-   
+    // 4. DELAY RACCOONS BY 15 SECONDS
+    // Nothing spawns until 15000ms passes
+    raccoonTimeoutId = setTimeout(() => {
+        // First raccoon at 15s mark
+        addRaccoon();
 
-    // 3. strat the main interval of the game (main 60 frames per second)
+        // Then 1 raccoon every 5s afterwards
+        raccoonSpawnIntervalId = setInterval(addRaccoon, 5000); 
+    }, 15000);
 
-    gameIntervalId = setInterval(gameLoop, Math.floor(1000/60))
-
-
+    // 5. Main 60 FPS loop
+    gameIntervalId = setInterval(gameLoop, Math.floor(1000 / 60));
 }
+
+
+
+// ---------- collision generic  ------------ //
+
+function checkCollision(element1, element2) {
+  return (
+    element1.x < element2.x + element2.width &&
+    element1.x + element1.width > element2.x &&
+    element1.y < element2.y + element2.height &&
+    element1.y + element1.height > element2.y
+  ); // true if colliding, false if not colliding
+}
+
+
+
+
 // ------- resources ------------ //
 
 function resourceSpawn() {
@@ -153,30 +184,6 @@ function startResourceSpawner() {
 
     // 2. Set an alarm to spawn ONE single item every x ms 
     spawnIntervalId = setInterval(resourceSpawn, 1000);
-}
-
-
-
-function checkCollision(element1, element2) {
-  return (
-    element1.x < element2.x + element2.width &&
-    element1.x + element1.width > element2.x &&
-    element1.y < element2.y + element2.height &&
-    element1.y + element1.height > element2.y
-  ); // true if colliding, false if not colliding
-}
-
-
-function updatePileDisplay(type) {
-  const layer = document.getElementById(layerIds[type]);
-  if (!layer) return;
-
-  const sprites = layer.querySelectorAll('.pile-item');
-  sprites.forEach(sprite => {
-    const index = parseInt(sprite.dataset.index, 10);
-    // Show sprite if collected count reaches its index, hide otherwise
-    sprite.classList.toggle('hidden', index > resourceCounts[type]);
-  });
 }
 
 
@@ -224,6 +231,20 @@ function updateCounterUI() {
 
 }
 
+// ------- firepile ------------ //
+
+function updatePileDisplay(type) {
+  const layer = document.getElementById(layerIds[type]);
+  if (!layer) return;
+
+  const sprites = layer.querySelectorAll('.pile-item');
+  sprites.forEach(sprite => {
+    const index = parseInt(sprite.dataset.index, 10);
+    // Show sprite if collected count reaches its index, hide otherwise
+    sprite.classList.toggle('hidden', index > resourceCounts[type]);
+  });
+}
+
 // ---------- sun (extra) ------------ //
 
 function updateSunPosition() {
@@ -267,7 +288,6 @@ function startCountdown() {
 
 
 
-
 function updateCountdown(){
 
     // Converts timeGame to a string and pads it with a leading "0" if it's shorter than 2 digits
@@ -277,6 +297,69 @@ function updateCountdown(){
 
 }
 
+// ---------- Raccoon ------------ //
+
+function addRaccoon() {
+    // 5 fixed Y positions (adjust these pixel numbers to fit your game box)
+    const raccoonLanes = [139, 177, 215];
+
+    // Pick a random index from 0 to 4
+    const randomIndex = Math.floor(Math.random() * raccoonLanes.length);
+    const chosenPosY = raccoonLanes[randomIndex];
+
+    // Pass the fixed lane Y position into the class
+    let raccoonObj = new Raccoon(chosenPosY);
+    raccoonArr.push(raccoonObj);
+}
+
+
+function checkRaccoonDespawn(){
+
+    if (raccoonArr.length === 0) {
+        return // dont check anything of empty 
+    }
+
+    if (raccoonArr[0].x <= (0 - raccoonArr[0].width)) {
+        // the first element arrived to the end of the screen, remove it
+        raccoonArr[0].node.remove()
+        //remove also form the array
+        raccoonArr.splice(0, 1)
+    }
+
+}
+
+
+
+function checkRaccoonSteal() {
+    const StealLineX = gameBoxNode.clientWidth - 92;
+
+    raccoonArr.forEach((raccoonObj) => {
+        // Only run when raccoon crosses the X threshold and hasn't stolen yet
+        if (raccoonObj.x <= StealLineX && !raccoonObj.hasStolen) {
+
+            // Check resource availability using conditionals
+            if (resourceCounts.plant > 0) {
+                resourceCounts.plant--;
+                updatePileDisplay("plant");
+                raccoonObj.changeSprite(".Images/Raccoon-plant.png");
+            } else if (resourceCounts.rock > 0) {
+                resourceCounts.rock--;
+                updatePileDisplay("rock");
+                raccoonObj.changeSprite("./Images/Raccoon-stone.png");
+            } else if (resourceCounts.wood > 0) {
+                resourceCounts.wood--;
+                updatePileDisplay("wood");
+                raccoonObj.changeSprite("./Images/Raccoon-wood.png");
+            }
+
+            // Update screen counter UI
+            updateCounterUI();
+
+            // Mark so this raccoon doesn't steal again while moving left
+            raccoonObj.hasStolen = true;
+        }
+    });
+}
 
 
 
@@ -285,6 +368,14 @@ function updateCountdown(){
 function gameLoop() {
     // console.log("this is running 60 times per second") // 60 fps (test but dont keep uncommented)
 
+     // automaic movement 
+    raccoonArr.forEach((raccoonObj) =>{
+    raccoonObj.automaticMoveLeft()
+     })
+   
+    
+    checkRaccoonSteal() 
+    checkRaccoonDespawn()
     checkCollisionPlayerResource();
     checkGameStatus()
 
@@ -391,4 +482,20 @@ window.addEventListener("keydown", (event) => {
 })
 
 //* TEST
+
+
+const debugLine = document.createElement("div");
+debugLine.style.position = "absolute";
+debugLine.style.top = "0px";
+debugLine.style.bottom = "0px"; // Spans full height of game container
+debugLine.style.width = "3px";  // Line thickness
+debugLine.style.backgroundColor = "red"; // Bright color so it's easy to see
+debugLine.style.zIndex = "999"; // Ensures it renders on top of everything
+
+// Position it dynamically using clientWidth - 191px
+const stealX = gameBoxNode.clientWidth - 191;
+debugLine.style.left = `${stealX}px`;
+
+// Append to the game container
+gameBoxNode.appendChild(debugLine);
 
