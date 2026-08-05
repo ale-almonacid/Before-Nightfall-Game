@@ -28,8 +28,9 @@ const rockCounterNode = document.querySelector("#rock-counter")
 
 const countdownNode = document.querySelector("#countdown")
 
-/*------ sun ----------*/
+/*------ Assets ----------*/
 const sunNode = document.querySelector("#sun")
+const fireNode = document.querySelector("#fire")
 
 
 
@@ -83,8 +84,11 @@ function resetGame() {
     resourceCounts = { plant: 0, rock: 0, wood: 0 }
     timeGame = 45
 
+    fireNode.style.display = "none";
+
     updateCounterUI()
     updateCountdown()
+    updateSunPosition()
 
     // 5. hide every pile sprite again
     updatePileDisplay("plant")
@@ -160,6 +164,7 @@ function checkCollision(element1, element2) {
     element1.y + element1.height > element2.y
   ); // true if colliding, false if not colliding
 }
+
 
 function updatePileDisplay(type) {
   const layer = document.getElementById(layerIds[type]);
@@ -301,14 +306,20 @@ function gameLose(){
 
 function gameWin(){
 
-    // chnaging the screens 
-    gameScreenNode.style.display = "none"
-    winScreenNode.style.display = "flex"
+    fireNode.style.display = "block";
+    
 
-    // stopping the interval 
-    clearInterval(gameIntervalId)
-    clearInterval(spawnIntervalId)
+    // 2. Stop game loops so character/timer freeze while fire plays
+    clearInterval(gameIntervalId);
+    clearInterval(spawnIntervalId);
     clearInterval(timerIntervalId);
+
+    // 3. Wait 2 seconds (2000ms) before switching to the win screen
+    setTimeout(() => {
+        gameScreenNode.style.display = "none";
+        winScreenNode.style.display = "flex";
+    }, 3000);
+
 
 }
 

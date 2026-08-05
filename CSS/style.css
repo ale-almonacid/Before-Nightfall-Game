@@ -332,7 +332,7 @@ button {
   pointer-events: none; /* Allows clicks/collisions to pass through if needed */
 }
 
-/* Control fire sprite size */
+/* fire sprite */
 #fire {
   width: 140px; /* Adjust size to fit your pile */
   height: auto;
