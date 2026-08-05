@@ -21,7 +21,7 @@ body {
 /* ---------------start-screen----------------------- */
 
 #start-screen{
-    background-image:url(./Images/background\ 1.png);
+    background-image:url(../Images/background-1.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -178,7 +178,7 @@ button {
 /* ---------------- game-screen ------------------ */
 
 #game-screen{
-    background-image:url(/Images/background\ 2.png);
+    background-image:url(../Images/background-2.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -397,7 +397,7 @@ button {
 
 
 #win-screen{
-    background-image:url(/Images/background\ 3.png);
+    background-image:url(../Images/background-3.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -418,7 +418,7 @@ button {
 /* ---------------- lose-screen ------------------ */
 
 #lose-screen{
-    background-image:url(/Images/background\ 4.png);
+    background-image:url(../Images/background-4.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
