@@ -2,10 +2,13 @@ class Player {
 
     constructor(){
         this.node = document.createElement("img")
-        this.node.src = "./Images/player-default.png"
+        this.node.src = "./Images/player-right.png"
 
         // adding the node to the gamebox 
         gameBoxNode.append(this.node)
+
+        // Add a flag to lock sprite changes when game ends
+        this.isGameOver = false;
 
         this.x = 40;
         this.y = 160;
@@ -40,6 +43,8 @@ class Player {
 
     moveUp() {
 
+        if (this.isGameOver) return;
+
         if (this.y + (this.height/2) <= 0){
       return
         }
@@ -49,6 +54,8 @@ class Player {
     }
 
     moveDown() {
+
+        if (this.isGameOver) return;
 
         if ((this.y + this.height) >= gameBoxNode.offsetHeight){
       return
@@ -61,6 +68,8 @@ class Player {
 
     moveRight() {
 
+        if (this.isGameOver) return;
+
         if ((this.x + this.width) >= gameBoxNode.offsetWidth){
       return
         }
@@ -72,6 +81,8 @@ class Player {
 
      moveLeft() {
 
+        if (this.isGameOver) return;
+
         if (this.x <= 0){
       return
         }
@@ -81,10 +92,13 @@ class Player {
     }
 
 
+   
+
     changeSprite(newSrc) {
+        
         this.node.src = newSrc;
     }
 
-
+    
 
 }

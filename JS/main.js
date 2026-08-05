@@ -293,7 +293,9 @@ function gameLoop() {
 
 function gameLose(){
 
-   playerObj.changeSprite("./Images/player-lose.png")
+    playerObj.isGameOver = true;
+
+    playerObj.changeSprite("./Images/player-lose.png")
 
     // stopping the interval 
     clearInterval(gameIntervalId)
@@ -311,6 +313,9 @@ function gameLose(){
 function gameWin(){
 
     fireNode.style.display = "block";
+
+    playerObj.isGameOver = true;
+
     playerObj.changeSprite("./Images/player-win.png")
 
     // 2. Stop game loops so character/timer freeze while fire plays
@@ -375,9 +380,11 @@ window.addEventListener("keydown", (event) => {
         //console.log("trying to move the player down") (TEST)
     }else if (event.key === "ArrowRight") {
         playerObj.moveRight()
+        playerObj.node.style.transform = "scaleX(1)"
 
     } else if (event.key === "ArrowLeft") {
         playerObj.moveLeft()
+        playerObj.node.style.transform = "scaleX(-1)"
 
     }
     
