@@ -2,7 +2,7 @@ class Player {
 
     constructor(){
         this.node = document.createElement("img")
-        this.node.src = "./Images/player.png"
+        this.node.src = "./Images/player-default.png"
 
         // adding the node to the gamebox 
         gameBoxNode.append(this.node)
@@ -11,8 +11,8 @@ class Player {
         this.y = 160;
 
         // image is 79x98, so keep the same ratio
-        this.width = 78.8;
-        this.height = 98;
+        this.width = 90;
+        this.height = 100;
 
 
         //adjusting the initial values of the DOM node
@@ -78,6 +78,11 @@ class Player {
 
         this.x -= 20
         this.node.style.left = `${this.x}px` 
+    }
+
+
+    changeSprite(newSrc) {
+        this.node.src = newSrc;
     }
 
 

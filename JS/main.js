@@ -32,6 +32,7 @@ const countdownNode = document.querySelector("#countdown")
 const sunNode = document.querySelector("#sun")
 const fireNode = document.querySelector("#fire")
 
+/*----------- player-----------*/
 
 
 
@@ -292,14 +293,17 @@ function gameLoop() {
 
 function gameLose(){
 
-    // chnaging the screens 
-    gameScreenNode.style.display = "none"
-    loseScreenNode.style.display = "flex"
+   playerObj.changeSprite("./Images/player-lose.png")
 
     // stopping the interval 
     clearInterval(gameIntervalId)
     clearInterval(spawnIntervalId)
     clearInterval(timerIntervalId);
+
+    setTimeout(() => {
+        gameScreenNode.style.display = "none";
+        loseScreenNode.style.display = "flex";
+    }, 3000);
 
 }
 
@@ -307,7 +311,7 @@ function gameLose(){
 function gameWin(){
 
     fireNode.style.display = "block";
-    
+    playerObj.changeSprite("./Images/player-win.png")
 
     // 2. Stop game loops so character/timer freeze while fire plays
     clearInterval(gameIntervalId);
