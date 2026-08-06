@@ -31,8 +31,9 @@ const countdownNode = document.querySelector("#countdown")
 /*------ Assets ----------*/
 const sunNode = document.querySelector("#sun")
 const fireNode = document.querySelector("#fire")
+const snowNode = document.querySelector("#snow")
 
-/*----------- player-----------*/
+/*----------- Audio-----------*/
 
 
 
@@ -96,6 +97,7 @@ function resetGame() {
     timeGame = 45
 
     fireNode.style.display = "none";
+    snowNode.style.display = "none";
 
     updateCounterUI()
     updateCountdown()
@@ -299,13 +301,26 @@ function updateCountdown(){
 
 // ---------- Raccoon ------------ //
 
-function addRaccoon() {
-    // 5 fixed Y positions (adjust these pixel numbers to fit your game box)
-    const raccoonLanes = [139, 177, 215];
+// Track the last Y position used (placed OUTSIDE the function)
+let lastRaccoonPosY = null;
 
-    // Pick a random index from 0 to 4
-    const randomIndex = Math.floor(Math.random() * raccoonLanes.length);
-    const chosenPosY = raccoonLanes[randomIndex];
+function addRaccoon() {
+    const raccoonLanes = [139, 177, 215];
+    const availableLanes = [];
+
+    // 1. Use forEach to build a list of lanes that match NOT the last used Y position
+    raccoonLanes.forEach((laneY) => {
+        if (laneY !== lastRaccoonPosY) {
+            availableLanes.push(laneY);
+        }
+    });
+
+    // 2. Pick a random lane from the remaining available options
+    const randomIndex = Math.floor(Math.random() * availableLanes.length);
+    const chosenPosY = availableLanes[randomIndex];
+
+    // 3. Save this lane for the next spawn check
+    lastRaccoonPosY = chosenPosY;
 
     // Pass the fixed lane Y position into the class
     let raccoonObj = new Raccoon(chosenPosY);
@@ -331,32 +346,46 @@ function checkRaccoonDespawn(){
 
 
 function checkRaccoonSteal() {
+    //this is the point where sprites change
     const StealLineX = gameBoxNode.clientWidth - 92;
 
     raccoonArr.forEach((raccoonObj) => {
         // Only run when raccoon crosses the X threshold and hasn't stolen yet
         if (raccoonObj.x <= StealLineX && !raccoonObj.hasStolen) {
 
-            // Check resource availability using conditionals
-            if (resourceCounts.plant > 0) {
-                resourceCounts.plant--;
-                updatePileDisplay("plant");
-                raccoonObj.changeSprite("./Images/Raccoon-plant.png");
-            } else if (resourceCounts.rock > 0) {
-                resourceCounts.rock--;
-                updatePileDisplay("rock");
-                raccoonObj.changeSprite("./Images/Raccoon-stone.png");
-            } else if (resourceCounts.wood > 0) {
-                resourceCounts.wood--;
-                updatePileDisplay("wood");
-                raccoonObj.changeSprite("./Images/Raccoon-wood.png");
+            // 1. Build a list of resource types that currently have stock (> 0)
+            const availableResources = [];
+            if (resourceCounts.plant > 0) availableResources.push("plant");
+            if (resourceCounts.rock > 0) availableResources.push("rock");
+            if (resourceCounts.wood > 0) availableResources.push("wood");
+
+            // 2. Only steal if there is at least one resource remaining in the pile
+            if (availableResources.length > 0) {
+                // Pick a random index from the available resources array
+                const randomIndex = Math.floor(Math.random() * availableResources.length);
+                const chosenResource = availableResources[randomIndex];
+
+                // 3. Deduct stock and change sprite based on the random choice
+                if (chosenResource === "plant") {
+                    resourceCounts.plant--;
+                    updatePileDisplay("plant");
+                    raccoonObj.changeSprite("./Images/Raccoon-plant.png");
+                } else if (chosenResource === "rock") {
+                    resourceCounts.rock--;
+                    updatePileDisplay("rock");
+                    raccoonObj.changeSprite("./Images/Raccoon-stone.png");
+                } else if (chosenResource === "wood") {
+                    resourceCounts.wood--;
+                    updatePileDisplay("wood");
+                    raccoonObj.changeSprite("./Images/Raccoon-wood.png");
+                }
+
+                // Update screen counter UI
+                updateCounterUI();
+
+                // Mark so this raccoon doesn't steal again while moving left
+                raccoonObj.hasStolen = true;
             }
-
-            // Update screen counter UI
-            updateCounterUI();
-
-            // Mark so this raccoon doesn't steal again while moving left
-            raccoonObj.hasStolen = true;
         }
     });
 }
@@ -384,6 +413,9 @@ function gameLoop() {
 
 function gameLose(){
 
+
+    snowNode.style.display = "block";
+
     playerObj.isGameOver = true;
 
     playerObj.changeSprite("./Images/player-lose.png")
@@ -402,6 +434,7 @@ function gameLose(){
 
 
 function gameWin(){
+
 
     fireNode.style.display = "block";
 
@@ -480,22 +513,3 @@ window.addEventListener("keydown", (event) => {
     }
     
 })
-
-//* TEST
-
-
-const debugLine = document.createElement("div");
-debugLine.style.position = "absolute";
-debugLine.style.top = "0px";
-debugLine.style.bottom = "0px"; // Spans full height of game container
-debugLine.style.width = "3px";  // Line thickness
-debugLine.style.backgroundColor = "red"; // Bright color so it's easy to see
-debugLine.style.zIndex = "999"; // Ensures it renders on top of everything
-
-// Position it dynamically using clientWidth - 191px
-const stealX = gameBoxNode.clientWidth - 191;
-debugLine.style.left = `${stealX}px`;
-
-// Append to the game container
-gameBoxNode.appendChild(debugLine);
-

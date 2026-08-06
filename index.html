@@ -48,7 +48,7 @@
          <div class="card">
             <div class="card-content-wrapper">
                 <h3 class="card-title">Beware of the raccoons</h3>
-                <p class="card-text">Every now and then, the raccoons will try to steal your resources. Chase them away to protect your supplies!</p>
+                <p class="card-text">Every now and then, the raccoons will some to steal your resources. So don't think that you are ready once you got the minimum.</p>
             </div>
             <div class="card-image-container">
                 <img src="./Images/image-card-4.png" alt="">
@@ -80,17 +80,17 @@
         <p class="label">Resources:</p>
         <div class="counter">
           <div class="resource-box">
-            <img src="./Images/Plant.png" alt="">
+            <img class="counter-img" src="./Images/Plant.png" alt="">
             <p id="plant-counter" class="counter-value-text">0/5</p>
           </div>
           <img src="./Images/Line-separator.svg" alt="">
           <div class="resource-box">
-            <img src="./Images/Wood.png" alt="">
+            <img class="counter-img" src="./Images/Wood.png" alt="">
             <p id= "wood-counter" class="counter-value-text">0/6</p>
           </div>
           <img src="./Images/Line-separator.svg" alt="">
           <div class="resource-box">
-            <img src="./Images/Rock.png" alt="">
+            <img class="counter-img" src="./Images/Rock.png" alt="">
             <p id="rock-counter" class="counter-value-text">0/9</p>
           </div>
           
@@ -98,6 +98,7 @@
       </div>
     </div>
     <div id="game-window">
+        <img id="snow" src="./Images/snow.gif" alt="">
         <img id="sun" src="./Images/Sun-game-window.png" alt="">
         <img id="mountains" src="./Images/mountains.svg" alt="">
         <div id="game-box">
@@ -184,11 +185,15 @@
   </div>
 
 
+<!-- JS connection -->
 
   <script src="./JS/main.js"></script>
   <script src="./JS/player.js"></script>
   <script src="./JS/resources.js"></script>
   <script src="./JS/raccoon.js"></script>
+
+<!-- Audio -->
+ <audio id="bg-music" src="./Audio/BG-music.mp3" loop></audio>
  
 
 </body>
