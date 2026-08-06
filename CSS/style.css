@@ -301,10 +301,10 @@ button {
     
 }
 
-#sound-img{
+/* #sound-img{
     
 
-}
+} */
 
 #snow {
     position: absolute;
@@ -499,6 +499,6 @@ button {
 /* ---------------- turn on/off ------------------ */
 
 
-/* #game-screen, #lose-screen, #win-screen{
+#game-screen, #lose-screen, #win-screen{
   display: none;
-} */
+}
