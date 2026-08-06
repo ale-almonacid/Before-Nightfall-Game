@@ -16,6 +16,19 @@ const playAgainBtnNode = document.querySelector("#play-again-btn")
 
 const tryAgainBtnNode = document.querySelector("#try-again-btn")
 
+const homeBtnNodes = document.querySelectorAll(".home-btn")
+
+/*------ sound button ----------*/
+
+const soundBtnNode = document.getElementById("sound-btn");
+const soundIconNode = document.getElementById("sound-img");
+
+
+
+// 4. Attach event listener to toggle sound
+
+
+
 /*------ counters ----------*/
 
 const plantCounterNode = document.querySelector("#plant-counter")
@@ -34,8 +47,15 @@ const fireNode = document.querySelector("#fire")
 const snowNode = document.querySelector("#snow")
 
 /*----------- Audio-----------*/
+const bgMusic = new Audio('Audio/BG-music.mp3');
+bgMusic.loop = true;  // Enable seamless looping [cite: 255]
+bgMusic.volume = 0.1;
+
+const loseMusic = new Audio('Audio/tragic-piano.mp3');
+loseMusic.volume = 0.1;
 
 
+/*----------- global variables -----------*/
 
 //* GLOBAL GAME VARIABLES
 
@@ -113,6 +133,10 @@ function startGame() {
 
     // 0. Clean up everything first
     resetGame();
+
+    // --- PLAY BACKGROUND MUSIC ---
+    bgMusic.currentTime = 0; // Rewind to start on new game
+    bgMusic.play().catch(error => console.log("Audio play error:", error));
 
     // 1. Switch screens
     startScreenNode.style.display = "none";
@@ -413,6 +437,13 @@ function gameLoop() {
 
 function gameLose(){
 
+    if (bgMusic) {
+        bgMusic.pause();
+    }
+
+    loseMusic.currentTime = 0; // Rewind to start on new game
+    loseMusic.play().catch(error => console.log("Audio play error:", error));
+
 
     snowNode.style.display = "block";
 
@@ -487,6 +518,16 @@ playAgainBtnNode.addEventListener("click", startGame)
 
 tryAgainBtnNode.addEventListener("click", startGame)
 
+homeBtnNodes.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        // Hard refresh back to home
+        location.reload(); 
+        
+        
+        // reload(); hard reset (in-build)
+        //resetToHome() soft rest (has to be build)
+    });
+});
 
 window.addEventListener("keydown", (event) => {
 
@@ -513,3 +554,22 @@ window.addEventListener("keydown", (event) => {
     }
     
 })
+
+let isMuted = false; 
+
+soundBtnNode.addEventListener("click", () => {
+   
+  // Flip the state (if false becomes true, if true becomes false)
+  isMuted = !isMuted;
+
+  // Toggle audio mute setting
+  bgMusic.muted = isMuted;
+  loseMusic.muted = isMuted;
+
+  // Swap the icon image
+  if (isMuted) {
+    soundIconNode.src = "./Images/sound-OFF.svg";
+  } else {
+    soundIconNode.src = "./Images/sound-ON.svg";
+  }
+});

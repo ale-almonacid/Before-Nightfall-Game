@@ -163,11 +163,13 @@ button {
     display: flex;
     align-self: center;
     background-color: #CD5F6B;
+    
   color: white;
   padding: 14px 24px;
   font-size: 12px;
   letter-spacing: 24%;
   text-transform: uppercase;
+  text-align: center;
   margin-top: 16px;
   border: none;
   border-radius: 8px;
@@ -175,6 +177,10 @@ button {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   
 }
+
+
+
+
 /* ---------------- game-screen ------------------ */
 
 #game-screen{
@@ -277,6 +283,27 @@ button {
 .counter-img{
     height: 40px;
     width: 40px;
+}
+
+#sound-btn{
+    background-color: #29204A;
+    padding: 6px 16px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: none;
+    
+    border-radius: 8px;
+    height: 100%;
+    margin: 0px;
+    
+}
+
+#sound-img{
+    
+
 }
 
 #snow {
@@ -432,6 +459,22 @@ button {
     padding: 60px 10vw;
 }
 
+.buttons-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.home-btn{
+    background-color: #cd5f6c46;
+    border: 1px solid #CD5F6B;
+   
+    text-align: center;
+    align-items: center;
+   
+
+}
+
 
 /* ---------------- lose-screen ------------------ */
 
@@ -456,6 +499,6 @@ button {
 /* ---------------- turn on/off ------------------ */
 
 
-#game-screen, #lose-screen, #win-screen{
+/* #game-screen, #lose-screen, #win-screen{
   display: none;
-}
+} */

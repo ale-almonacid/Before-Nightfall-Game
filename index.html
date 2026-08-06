@@ -66,7 +66,7 @@
 
     <div id="counters-bar">
       <div class="counter-wrapper">
-        <p class="label">Until sunset:</p>
+        <p class="label">Time left</p>
         <div class="counter">
           <div class="resource-box">
             <img src="./Images/sun.png" alt="">
@@ -77,7 +77,7 @@
       </div>
 
       <div class="counter-wrapper">
-        <p class="label">Resources:</p>
+        <p class="label">Resources</p>
         <div class="counter">
           <div class="resource-box">
             <img class="counter-img" src="./Images/Plant.png" alt="">
@@ -96,6 +96,15 @@
           
         </div>
       </div>
+
+      <div class="counter-wrapper">
+        <p class="label">sound</p>
+        <button id="sound-btn">
+          <img id="sound-img" src="./Images/sound-ON.svg" alt="">
+        </button>
+      </div>
+
+      
     </div>
     <div id="game-window">
         <img id="snow" src="./Images/snow.gif" alt="">
@@ -165,7 +174,11 @@
     </div>
     <h1>You did it! The fire is lit!</h1>
     <p>Looks like you’re not freezing tonight</p>
-    <button id="play-again-btn">Play again</button>
+    <div class="buttons-wrapper">
+      <button class="home-btn">Home page</button>
+      <button id="play-again-btn">Play again</button>
+    </div>
+   
     </div>
     
   </div>
@@ -178,7 +191,13 @@
     </div>
     <h1>Night has fallen…</h1>
     <p>The fire wasn’t ready in time :(</p>
-    <button id="try-again-btn">Try again</button>
+    <div class="buttons-wrapper">
+      <button class="home-btn">Home page</button>
+      <button id="try-again-btn">Try again</button>
+    </div>
+      
+    </div>
+    
     </div>
     
   
@@ -193,7 +212,7 @@
   <script src="./JS/raccoon.js"></script>
 
 <!-- Audio -->
- <audio id="bg-music" src="./Audio/BG-music.mp3" loop></audio>
+
  
 
 </body>
