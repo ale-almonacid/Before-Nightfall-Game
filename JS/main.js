@@ -44,7 +44,9 @@ const countdownNode = document.querySelector("#countdown")
 /*------ Assets ----------*/
 const sunNode = document.querySelector("#sun")
 const fireNode = document.querySelector("#fire")
+const fireContainerNode = document.querySelector("#fire-container2")
 const snowNode = document.querySelector("#snow")
+const darknessOverlayNode = document.querySelector("#darkness-overlay")
 
 /*----------- Audio-----------*/
 const bgMusic = new Audio('Audio/BG-music.mp3');
@@ -53,6 +55,9 @@ bgMusic.volume = 0.1;
 
 const loseMusic = new Audio('Audio/tragic-piano.mp3');
 loseMusic.volume = 0.1;
+
+const whooshSound = new Audio('Audio/whoosh.mp3');
+whooshSound.volume = 0.3;
 
 
 /*----------- global variables -----------*/
@@ -78,6 +83,9 @@ let resourceCounts = {
 };
 
 const RESOURCE_GOALS = { plant: 5, wood: 6, rock: 9 }
+
+// seconds left on the clock when nightfall starts creeping in
+const DARKNESS_START_TIME = 10
 
 const layerIds = {
   rock: 'rocks-layer',
@@ -116,8 +124,15 @@ function resetGame() {
     resourceCounts = { plant: 0, rock: 0, wood: 0 }
     timeGame = 45
 
-    fireNode.style.display = "none";
+    fireContainerNode.style.display = "none";
     snowNode.style.display = "none";
+
+    // clear the overlay instantly: without killing the transition first, a
+    // replay would start dark and slowly fade back to daylight
+    darknessOverlayNode.style.transition = "none"
+    updateDarkness()
+    darknessOverlayNode.offsetHeight // forces a reflow so the jump to 0 is applied before the transition returns
+    darknessOverlayNode.style.transition = ""
 
     updateCounterUI()
     updateCountdown()
@@ -296,6 +311,19 @@ function updateSunPosition() {
     sunNode.style.top = `${currentY}px`;
 }
 
+// ---------- darkness (nightfall) ------------ //
+
+function updateDarkness() {
+    // 0 while there is still plenty of daylight, then climbs to 1 as the clock
+    // runs from DARKNESS_START_TIME down to 0
+    const progress = (DARKNESS_START_TIME - timeGame) / DARKNESS_START_TIME;
+
+    // clamp so it never goes below 0 (early game) or above 1 (time's up)
+    const clampedProgress = Math.min(Math.max(progress, 0), 1);
+
+    darknessOverlayNode.style.opacity = clampedProgress;
+}
+
 // ---------- countdown ------------ //
 
 function startCountdown() {
@@ -304,6 +332,7 @@ function startCountdown() {
 
     updateCountdown()
     updateSunPosition()
+    updateDarkness()
 
    if (timeGame <= 0) {
       clearInterval(timerIntervalId);
@@ -407,6 +436,9 @@ function checkRaccoonSteal() {
                 // Update screen counter UI
                 updateCounterUI();
 
+                whooshSound.currentTime = 0; // Rewind to start on new game
+                whooshSound.play().catch(error => console.log("Audio play error:", error));
+
                 // Mark so this raccoon doesn't steal again while moving left
                 raccoonObj.hasStolen = true;
             }
@@ -459,7 +491,7 @@ function gameLose(){
     setTimeout(() => {
         gameScreenNode.style.display = "none";
         loseScreenNode.style.display = "flex";
-    }, 3000);
+    }, 4000);
 
 }
 
@@ -467,7 +499,7 @@ function gameLose(){
 function gameWin(){
 
 
-    fireNode.style.display = "block";
+    fireContainerNode.style.display = "block";
 
     playerObj.isGameOver = true;
 
@@ -565,6 +597,7 @@ soundBtnNode.addEventListener("click", () => {
   // Toggle audio mute setting
   bgMusic.muted = isMuted;
   loseMusic.muted = isMuted;
+  whooshSound.muted = isMuted;
 
   // Swap the icon image
   if (isMuted) {
